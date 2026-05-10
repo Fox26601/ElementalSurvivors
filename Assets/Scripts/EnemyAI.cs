@@ -1,21 +1,25 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyAI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject expOrb;
+    [SerializeField] private CombatStatsSO combatStats;
 
     [Header("Settings")]
     [SerializeField] private float maxHealth = 25f;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float moveSpeed = 5f;
 
+    private CombatStatsSO runtimeCombatStatsInstance;
     private PlayerHealth playerRef;
     private Transform player;
     private Vector2 direction;
     private float currentHealth;
+
+    public CombatStatsSO CombatStats => combatStats;
 
     void Awake()
     {
@@ -29,7 +33,7 @@ public class EnemyAI : MonoBehaviour
     {
         player = PlayerController.Instance;
 
-        if (playerRef == null)
+        if (player != null && playerRef == null)
             playerRef = player.GetComponent<PlayerHealth>();
     }
 
@@ -49,15 +53,34 @@ public class EnemyAI : MonoBehaviour
 
     private void SetDirection()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
         direction = (player.position - transform.position).normalized;
     }
 
     private void FollowPlayer()
     {
         SetDirection();
-
         rb.linearVelocity = direction * moveSpeed;
+    }
+
+    /// <summary>Called immediately after Instantiate to apply scaled stats from the spawner.</summary>
+    public void ApplySpawnConfiguration(SpawnStatBundle bundle)
+    {
+        if (runtimeCombatStatsInstance != null)
+        {
+            Destroy(runtimeCombatStatsInstance);
+            runtimeCombatStatsInstance = null;
+        }
+
+        combatStats = bundle.RuntimeCombatStats;
+        runtimeCombatStatsInstance = bundle.RuntimeCombatStats;
+
+        maxHealth = bundle.WorldMaxHealth;
+        currentHealth = maxHealth;
+
+        if (bundle.RuntimeCombatStats != null)
+            damage = Mathf.Max(1f, bundle.RuntimeCombatStats.attack);
     }
 
     public void TakeDamage(float amount)
@@ -72,7 +95,17 @@ public class EnemyAI : MonoBehaviour
 
     private void Die()
     {
-        Instantiate(expOrb, transform.position, Quaternion.identity);
+        if (expOrb != null)
+            Instantiate(expOrb, transform.position, Quaternion.identity);
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (runtimeCombatStatsInstance != null)
+        {
+            Destroy(runtimeCombatStatsInstance);
+            runtimeCombatStatsInstance = null;
+        }
     }
 }
