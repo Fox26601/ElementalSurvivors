@@ -1316,8 +1316,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6620634bd2273d044b8c1d3f26ae36ed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
-  enemyPrefab: {fileID: 3651129979494247448, guid: 77c68128e80259940a8a7848e64cca13, type: 3}
+  m_EditorClassIdentifier: 
+  runProfile: {fileID: 11400000, guid: 46d6a19c847fd34de968792974951fb5, type: 2}
+  gruntArchetype: {fileID: 11400000, guid: f5e528b101fbd549196eefb1e8e27fb3, type: 2}
+  bossArchetype: {fileID: 0}
+  session: {fileID: 1888888003}
   spawnInterval: 3
   spawnRadius: 8
 --- !u!1 &1701264380
@@ -1635,6 +1638,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2923133445809161551, guid: 6d89700316818dc45a88c9c0d5952ced, type: 3}
   m_PrefabInstance: {fileID: 4385793726486163026}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1888888001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1888888002}
+  - component: {fileID: 1888888003}
+  m_Layer: 0
+  m_Name: GameRunSession
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1888888002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888888001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1888888003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888888001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf54ba0a254cbae0d4d01f799a0ce86c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 46d6a19c847fd34de968792974951fb5, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1646,3 +1694,4 @@ SceneRoots:
   - {fileID: 1701264382}
   - {fileID: 1627141331}
   - {fileID: 65705789}
+  - {fileID: 1888888002}
